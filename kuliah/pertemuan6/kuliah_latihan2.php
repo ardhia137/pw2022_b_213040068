@@ -2,32 +2,16 @@
 $mahasiswa = [
     [
         "nama"=>"muhammad ardhia nugraha",
-        "nrp"=>"213040068",
-        "email"=>"ardhi213040068@mail.unpas.ac.id",
-        "jurusan"=>"Teknik Inforamtika",
-        "gambar"=>"https://asset-a.grid.id/crop/0x0:0x0/700x0/photo/2019/03/27/1294082232.jpg"
     ],
     [
         "nama"=>"iqbal maulana sidiq",
-        "nrp"=>"213040061",
-        "email"=>"iqbal213040061@mail.unpas.ac.id",
-        "jurusan"=>"Teknik Inforamtika",
-        "gambar"=>"img/download (2).jpg"
         
     ],
     [
         "nama"=>"rivan",
-        "nrp"=>"213040058",
-        "email"=>"rivan213040061@mail.unpas.ac.id",
-        "jurusan"=>"Teknik Industri",
-        "gambar"=>"https://pbs.twimg.com/media/ELXZ9LbUUAA0BJz.jpg"
     ],
     [
         "nama"=>"ahmad ammar",
-        "nrp"=>"213040050",
-        "email"=>"ahmmad213040050@mail.unpas.ac.id",
-        "jurusan"=>"Teknik Inforamtika",
-        "gambar"=>"img/download (3).jpg"
     ]
 ];
 
