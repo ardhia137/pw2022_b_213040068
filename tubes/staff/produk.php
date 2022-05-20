@@ -16,9 +16,11 @@ if (isset($_REQUEST['hapus-data'])) {
         document.location.href = 'produk.php';
         </script>";
     } else {
-        echo " <script>
-        alert('data gagal dihapus!');
-    </script>";
+        echo " Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Data Gagal Dihapus!',
+          })";
     }
 }
 ?>
@@ -41,6 +43,7 @@ if (isset($_REQUEST['hapus-data'])) {
     <link rel="stylesheet" href="../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../assets/dist/css/adminlte.min.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
