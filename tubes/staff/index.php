@@ -8,6 +8,7 @@
   $data = count_data();
   if (isset($_REQUEST['logout'])) {
     logout();
+    header('location:../login-staff.php');
   }
 ?>
 
@@ -40,6 +41,7 @@
   <link rel="stylesheet" href="../assets/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="../assets/plugins/summernote/summernote-bs4.min.css">
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

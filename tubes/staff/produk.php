@@ -8,6 +8,7 @@ require '../function.php';
 $data = query("select produk.id,produk.nama,kategori.nama as kategori,produk.stok,produk.deskripsi,produk.harga,produk.gambar from produk ,kategori where produk.id_kategori = kategori.id");
 if (isset($_REQUEST['logout'])) {
     logout();
+    header('location:../login-staff.php');
 }
 if (isset($_REQUEST['hapus-data'])) {
     if (hapus('produk', $_GET['id']) > 0) {

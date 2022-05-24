@@ -12,21 +12,35 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <title>Register | HelthCare Solution</title>
 </head>
-<?php
-require "function.php";
-if (isset($_POST['submit'])) {
-    
-    $cek = register($_POST,'users');
-    if ($cek> 0) {
-        header("location:login.php");
-    } else {
-        echo "<script>alert('".$cek."')</script>";
-    }
-}
-?>
 
 <body>
+    <?php
+    require "function.php";
+    if (isset($_POST['submit'])) {
 
+        $cek = register($_POST, 'users');
+        if ($cek > 0) {
+            echo "<script> Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Anda Telah Terdaftar!!',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    document.location.href = './login.php';
+                  }
+              })
+              </script>";
+              // header("location:login.php");
+            }else {
+                echo "<script> Swal.fire({
+                    icon: 'error',
+                    title: 'error',
+                    text: 'Gagal Registrasi!!',
+                  })
+                  </script>";
+        }
+    }
+    ?>
     <div class="login d-flex align-items-center">
         <div class="container">
             <div class="card ">

@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="../assets/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="../assets/plugins/summernote/summernote-bs4.min.css">
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <?php
 session_start();
@@ -49,6 +50,7 @@ if (isset($_POST['submit'])) {
 }
 if (isset($_REQUEST['logout'])) {
   logout();
+  header('location:../login-staff.php');
 }
 $id = addslashes($_GET['id']);
 $data = query("select produk.id,produk.nama,kategori.nama as nama_kategori,kategori.id as id_kategori,produk.stok,produk.deskripsi,produk.harga,produk.gambar from produk ,kategori where produk.id_kategori = kategori.id and produk.id = '$id'");

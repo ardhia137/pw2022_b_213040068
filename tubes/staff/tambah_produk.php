@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="../assets/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="../assets/plugins/summernote/summernote-bs4.min.css">
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <?php
 session_start();
@@ -48,6 +49,7 @@ if (isset($_POST['submit'])) {
 }
 if (isset($_REQUEST['logout'])) {
   logout();
+  header('location:../login-staff.php');
 }
 $data = query('select * from kategori');
 // print_r($data);

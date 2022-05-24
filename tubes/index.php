@@ -1,13 +1,3 @@
-<?php
-session_start();
-require 'function.php';
-$data = query('select * from kategori order by nama asc');
-if (isset($_REQUEST['logout'])) {
-    logout();
-  }
-?>
-
-
 <!doctype html>
 <html lang="en">
 
@@ -20,10 +10,31 @@ if (isset($_REQUEST['logout'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="assets/logo.png">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>HelthCare Solution</title>
 </head>
 
 <body>
+    <?php
+    session_start();
+    require 'function.php';
+    $data = query('select * from kategori order by nama asc');
+    $produk = query('select * from produk order by nama asc limit 8');
+    if (isset($_REQUEST['logout'])) {
+        logout();
+        echo "<script> Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Anda Telah Logout',
+          }).then((result) => {
+            if (result.isConfirmed) {
+                document.location.href = './login.php';
+              }
+          })
+          </script>";
+    }
+    ?>
+
     <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-white shadow-sm custom_navbar">
         <div class="container-fluid">
             <div class="row">
@@ -50,33 +61,29 @@ if (isset($_REQUEST['logout'])) {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Produk</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">semua</a></li>
+                            <li><a class="dropdown-item" href="produk.php?halaman=1">semua</a></li>
                             <?php foreach ($data as $kategori) : ?>
-                                <li><a class="dropdown-item" href="#"><?= $kategori['nama'] ?></a></li>
+                                <li><a class="dropdown-item" href="produk.php?kategori=<?= $kategori['id']  ?>&&halaman=1"><?= $kategori['nama'] ?></a></li>
                             <?php endforeach ?>
                         </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link " aria-current="page" href="#experience">Berita</a>
                     </li>
-
-                    <?php
-                    // print_r($_SESSION);
-                    if (!isset($_SESSION['login']) or $_SESSION['role'] != 'users') {
-                        echo "<li class='nav-item'>
-                        <a class='nav-link ' aria-current='page' href='./login.php'>Login</a>
-                    </li>";
-                    } else {
-                        echo "<li class='nav-item dropdown'>
-                        <a class='nav-link dropdown-toggle' href='#' id='navbarDropdownMenuLink' role='button' data-bs-toggle='dropdown' aria-expanded='false'>Akun</a>
-                        <ul class='dropdown-menu' aria-labelledby='navbarDropdownMenuLink'>
-                            <li><a class='dropdown-item' href='#'>Keranjang</a></li>
-                            <li><a class='dropdown-item' href='ganti-password.php'>Ganti Password</a></li>
-                            <li><a class='dropdown-item' href='?logout'>Logout</a></li>
-                        </ul>
-                    </li>";
-                    }
-                    ?>
+                    <?php if (!isset($_SESSION['login']) or $_SESSION['role'] != 'users') : ?>
+                        <li class='nav-item'>
+                            <a class='nav-link ' aria-current='page' href='./login.php'>Login</a>
+                        </li>
+                    <?php else : ?>
+                        <li class='nav-item dropdown'>
+                            <a class='nav-link dropdown-toggle' href='#' id='navbarDropdownMenuLink' role='button' data-bs-toggle='dropdown' aria-expanded='false'>Akun</a>
+                            <ul class='dropdown-menu' aria-labelledby='navbarDropdownMenuLink'>
+                                <li><a class='dropdown-item' href='#'>Keranjang</a></li>
+                                <li><a class='dropdown-item' href='ganti-password.php'>Ganti Password</a></li>
+                                <li><a class='dropdown-item' href='?logout'>Logout</a></li>
+                            </ul>
+                        </li>
+                    <?php endif ?>
                 </ul>
             </div>
         </div>
@@ -88,10 +95,10 @@ if (isset($_REQUEST['logout'])) {
                 <div class="col-md-5 d-block m-auto order-2 order-md-1">
                     <h4 class="t-landing-page">APA ITU <span style="color: #79D2F1;">HCS?..</span></h4>
                     <h4 class="sub-landing-page">HCS atau HelthCare Solution adalah sebuah Website untuk membeli obat secara online, serta sebagai platform untuk mengedukasi masyarkat akan pentingnya kesehatan.</h4>
-                    <?php 
-                        if (!isset($_SESSION['login']) or $_SESSION['role'] != 'users') {
-                            echo " <a href='register.php'> <button class='btn-register'>Daftar Sekarang</button></a>";
-                        }
+                    <?php
+                    if (!isset($_SESSION['login']) or $_SESSION['role'] != 'users') {
+                        echo " <a href='register.php'> <button class='btn-register'>Daftar Sekarang</button></a>";
+                    }
                     ?>
                 </div>
                 <div class="col-md-6 d-block m-auto order-1 order-md-2">
@@ -108,68 +115,21 @@ if (isset($_REQUEST['logout'])) {
                     <h4>Produk</h4>
                 </div>
                 <div class="col">
-                    <a href="#">
+                    <a href="produk.php?halaman=1">
                         <h4 class="float-end" style="color: #79D2F1; font-size:20px;">Selengkapnya</h4>
                     </a>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="custom-card shadow bg-body ">
-                        <img src="assets/sanmol.png" alt=" " class="d-block m-auto" />
-                        <h5>SANMOL TABLET 500MG per Strip isi 4 Tablet (per Strip)</h5>
-                        <h6>Rp 1.825,-</h6>
+                <?php foreach ($produk as $data) : ?>
+                    <div class="col-lg-3 col-md-6 col-6">
+                        <div class="custom-card shadow bg-body ">
+                            <img src="assets/<?= $data['gambar'] ?>" alt=" " class="d-block m-auto" />
+                            <h5><?= $data['nama'] ?></h5>
+                            <h6>Rp <?= number_format($data['harga']) ?></h6>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="custom-card shadow bg-body ">
-                        <img src="assets/sanmol.png" alt=" " class="d-block m-auto" />
-                        <h5>SANMOL TABLET 500MG per Strip isi 4 Tablet (per Strip)</h5>
-                        <h6>Rp 1.825,-</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="custom-card shadow bg-body ">
-                        <img src="assets/sanmol.png" alt=" " class="d-block m-auto" />
-                        <h5>SANMOL TABLET 500MG per Strip isi 4 Tablet (per Strip)</h5>
-                        <h6>Rp 1.825,-</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="custom-card shadow bg-body ">
-                        <img src="assets/sanmol.png" alt=" " class="d-block m-auto" />
-                        <h5>SANMOL TABLET 500MG per Strip isi 4 Tablet (per Strip)</h5>
-                        <h6>Rp 1.825,-</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="custom-card shadow bg-body ">
-                        <img src="assets/sanmol.png" alt=" " class="d-block m-auto" />
-                        <h5>SANMOL TABLET 500MG per Strip isi 4 Tablet (per Strip)</h5>
-                        <h6>Rp 1.825,-</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="custom-card shadow bg-body ">
-                        <img src="assets/sanmol.png" alt=" " class="d-block m-auto" />
-                        <h5>SANMOL TABLET 500MG per Strip isi 4 Tablet (per Strip)</h5>
-                        <h6>Rp 1.825,-</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="custom-card shadow bg-body ">
-                        <img src="assets/sanmol.png" alt=" " class="d-block m-auto" />
-                        <h5>SANMOL TABLET 500MG per Strip isi 4 Tablet (per Strip)</h5>
-                        <h6>Rp 1.825,-</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-6">
-                    <div class="custom-card shadow bg-body ">
-                        <img src="assets/sanmol.png" alt=" " class="d-block m-auto" />
-                        <h5>SANMOL TABLET 500MG per Strip isi 4 Tablet (per Strip)</h5>
-                        <h6>Rp 1.825,-</h6>
-                    </div>
-                </div>
+                <?php endforeach ?>
             </div>
         </div>
     </div>

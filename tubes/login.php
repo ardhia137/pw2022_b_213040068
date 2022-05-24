@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 
@@ -10,34 +9,37 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="shortcut icon" href="assets/logo.png">
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Login | HelthCare Solution</title>
 </head>
-<?php 
-session_start();
-require "function.php";
-if(isset($_POST['submit'])){
-    $cek = login('users',$_POST);
-   if ( $cek[0] > 0) {
-        $data =  mysqli_fetch_assoc($cek[1]);
-        $_SESSION["login"] = true;
-        $_SESSION["role"] = 'users';
-        $_SESSION["data"] = $data;
-       header("location:index.php");
-    } else {
-        echo "<script>
-        alert('username atau password salah')
-        </script>";
-   }
-}
-?>
+
 <body>
+    <?php
+    session_start();
+    require "function.php";
+    if (isset($_POST['submit'])) {
+        $cek = login('users', $_POST);
+        if ($cek[0] > 0) {
+            $data =  mysqli_fetch_assoc($cek[1]);
+            $_SESSION["login"] = true;
+            $_SESSION["role"] = 'users';
+            $_SESSION["data"] = $data;
+            header("location:index.php");
+        } else {
+            echo " <script> Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Username Atau Password Salah!!',
+          })</script>";
+        }
+    }
+    ?>
     <div class="login d-flex align-items-center">
         <div class="container">
             <div class="card ">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-6 align-self-center" style="text-align: center;"  >
+                        <div class="col-md-6 align-self-center" style="text-align: center;">
                             <img class="img-responsive" src="assets/login.jpg" alt="">
                         </div>
                         <div class="col-md-6">

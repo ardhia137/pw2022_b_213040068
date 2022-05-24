@@ -1,38 +1,3 @@
-<?php
-session_start();
-if (!isset($_SESSION["login"]) or $_SESSION['role'] != 'users') {
-    header("Location: ./index.php");
-    exit;
-  }
-require "./function.php";
-if (isset($_POST['submit'])) {
-    // echo $_SESSION['data']['password'];
-    // echo $_POST['password_lama'];
-  if ($_SESSION['data']['password'] == $_POST['password_lama']) {
-    if ($_POST['password_baru'] == $_POST['retype_password_baru']) {
-      $cek = ubah_password('users', $_POST);
-      if ($cek > 0) {
-        $_SESSION['data']['password'] = $_POST['password_baru'];
-        echo " <script>
-        alert('password berhasil diubah!');
-        document.location.href = 'index.php';
-    </script>";
-      } else {
-        echo "<script>alert('data gagal di ubah')</script>";
-      }
-    }else{
-      echo "<script>alert('ketik ulang password dengan benar')</script>";
-    }
-  } else {
-    echo "<script>alert('password lama salah')</script>";
-  }
-}
-if (isset($_REQUEST['logout'])) {
-    logout();
-}
-?>
-
-
 <!doctype html>
 <html lang="en">
 
@@ -43,11 +8,55 @@ if (isset($_REQUEST['logout'])) {
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Hello, world!</title>
 </head>
 
 <body>
+    <?php
+    session_start();
+    if (!isset($_SESSION["login"]) or $_SESSION['role'] != 'users') {
+        header("Location: ./index.php");
+        exit;
+    }
+    require "./function.php";
+    if (isset($_POST['submit'])) {
+        // echo $_SESSION['data']['password'];
+        // echo $_POST['password_lama'];
+        if ($_SESSION['data']['password'] == $_POST['password_lama']) {
+            if ($_POST['password_baru'] == $_POST['retype_password_baru']) {
+                $cek = ubah_password('users', $_POST);
+                if ($cek > 0) {
+                    $_SESSION['data']['password'] = $_POST['password_baru'];
+                    echo " <script>
+        alert('password berhasil diubah!');
+        document.location.href = 'index.php';
+    </script>";
+                } else {
+                    echo "<script>alert('data gagal di ubah')</script>";
+                }
+            } else {
+                echo "<script>alert('ketik ulang password dengan benar')</script>";
+            }
+        } else {
+            echo "<script>alert('password lama salah')</script>";
+        }
+    }
+    if (isset($_REQUEST['logout'])) {
+        logout();
+        echo "<script> Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Anda Telah Logout',
+      }).then((result) => {
+        if (result.isConfirmed) {
+            document.location.href = './login.php';
+          }
+      })
+      </script>";
+    }
+    ?>
+
     <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-white shadow-sm custom_navbar">
         <div class="container-fluid">
             <div class="row">
@@ -112,16 +121,16 @@ if (isset($_REQUEST['logout'])) {
                     <h4>Ganti Password</h4>
                 </div>
                 <ul class="list-group">
-                   <form action="" method="post">
-                       <input type="hidden" name="id" value="<?= $_SESSION['data']['id'] ?>">
-                   <label for="exampleInputEmail1">Password Lama</label>
-                    <input type="password" id="gpsPassword" class="form-control" aria-describedby="passwordHelpBlock" name="password_lama" required>
-                    <label for="inputPassword5" class="form-label">Password Baru</label>
-                    <input type="password" id="gpsPassword" class="form-control" aria-describedby="passwordHelpBlock" name="password_baru" required>
-                    <label for="inputPassword5" class="form-label">Retype Password Baru</label>
-                    <input type="password" id="gpsPassword" class="form-control" aria-describedby="passwordHelpBlock" name="retype_password_baru" required>
-                    <input type="submit" value="Submit" class="btn btn-primary" name="submit" style="width: 100px;">
-                   </form>
+                    <form action="" method="post">
+                        <input type="hidden" name="id" value="<?= $_SESSION['data']['id'] ?>">
+                        <label for="exampleInputEmail1">Password Lama</label>
+                        <input type="password" id="gpsPassword" class="form-control" aria-describedby="passwordHelpBlock" name="password_lama" required>
+                        <label for="inputPassword5" class="form-label">Password Baru</label>
+                        <input type="password" id="gpsPassword" class="form-control" aria-describedby="passwordHelpBlock" name="password_baru" required>
+                        <label for="inputPassword5" class="form-label">Retype Password Baru</label>
+                        <input type="password" id="gpsPassword" class="form-control" aria-describedby="passwordHelpBlock" name="retype_password_baru" required>
+                        <input type="submit" value="Submit" class="btn btn-primary" name="submit" style="width: 100px;">
+                    </form>
                 </ul>
             </div>
         </div>

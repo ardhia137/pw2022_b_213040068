@@ -8,6 +8,7 @@ require '../function.php';
 $data = query('select * from users');
 if (isset($_REQUEST['logout'])) {
     logout();
+    header('location:../login-staff.php');
 }
 ?>
 
@@ -29,6 +30,7 @@ if (isset($_REQUEST['logout'])) {
     <link rel="stylesheet" href="../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../assets/dist/css/adminlte.min.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
