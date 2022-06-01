@@ -11,32 +11,17 @@
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="assets/logo.png">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>HelthCare Solution</title>
+    <title>Detail Produk | HelthCare Solution</title>
 </head>
 
 <body>
     <?php
     session_start();
     require 'function.php';
+    $id = addslashes($_GET['id']);
     $data = query('select * from kategori order by nama asc');
-
-
-    if (isset($_GET['kategori'])) {
-        $id_kategori = $_GET['kategori'];
-        $jumlahdataperhalaman = 8;
-        $jumlahdata = count(query("select * from produk where id_kategori = $id_kategori"));
-        $jumlahhalaman = ceil($jumlahdata / $jumlahdataperhalaman);
-        $halamanaktif = (isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
-        $awaldata = ($jumlahdataperhalaman * $halamanaktif) - $jumlahdataperhalaman;
-        $produk = query("select * from produk where id_kategori = $id_kategori order by nama asc limit $awaldata, $jumlahdataperhalaman");
-    } else {
-        $jumlahdataperhalaman = 8;
-        $jumlahdata = count(query('select * from produk'));
-        $jumlahhalaman = ceil($jumlahdata / $jumlahdataperhalaman);
-        $halamanaktif = (isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
-        $awaldata = ($jumlahdataperhalaman * $halamanaktif) - $jumlahdataperhalaman;
-        $produk = query("select * from produk order by nama asc limit $awaldata, $jumlahdataperhalaman");
-    }
+    $artikel = query("select * from berita where id = $id");
+    // print_r($artikel);
     if (isset($_REQUEST['logout'])) {
         logout();
         echo "<script> Swal.fire({
@@ -75,7 +60,7 @@
                         <a class="nav-link " aria-current="page" href="index.php">Beranda</a>
                     </li>
                     <li class="nav-item dropdown ">
-                        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Produk</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Produk</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="produk.php?halaman=1">semua</a></li>
                             <?php foreach ($data as $kategori) : ?>
@@ -110,57 +95,17 @@
     </nav>
 
 
-    <div class="produk" style="padding-top: 100px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-6">
-                    <h4>Produk</h4>
-                </div>
-                <div class="col-6">
-                    <form action="" method="POST">
-                        <input type="text" name="keyword" placeholder="Cari" class="form-control float-end" style="width: 70%;" autocomplete="off" id="keyword">
-                        <!-- <button type="submit" name="cari" id="tombol-cari">Cari!</button> -->
-                    </form>
-                </div>
-            </div>
-            <div id="produk">
-                <div class="row">
-                    <?php foreach ($produk as $data) : ?>
-                        <div class="col-lg-3 col-md-6 col-6">
-                            <a href="detail-produk.php?id=<?= $data['id'] ?>" style="text-decoration: none;">
-                            <div class="custom-card shadow bg-body ">
-                                <img src="assets/<?= $data['gambar'] ?>" alt=" " class="d-block m-auto" />
-                                <h5><?= $data['nama'] ?></h5>
-                                <h6>Rp <?= number_format($data['harga']) ?></h6>
-                            </div>
-                        </a>
-                        </div>
-                    <?php endforeach ?>
-                </div>
-
-                <!-- <nav aria-label="Page navigation example"> -->
-                <ul class="pagination mt-3">
-                    <li class="page-item <?= ($halamanaktif > 1) ? "" : "disabled" ?>">
-                        <a class="page-link" href="<?= (isset($_GET['kategori'])) ? "produk.php?kategori=" . $_GET['kategori'] . "&&" . "halaman=" . ($halamanaktif - 1) : "produk.php?halaman=" . ($halamanaktif - 1) ?>" aria-label="Previous" aria-disabled="true">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <?php for ($i = 1; $i <= $jumlahhalaman; $i++) : ?>
-                        <?php if ($i == $halamanaktif) : ?>
-                            <li class="page-item active" aria-current="page"><a class="page-link " href="<?= (isset($_GET['kategori'])) ? "produk.php?kategori=" . $_GET['kategori'] . "&&" . "halaman=" . $i : "produk.php?halaman=" . $i ?>"><?= $i ?></a></li>
-                        <?php else : ?>
-                            <li class="page-item"><a class="page-link" href="<?= (isset($_GET['kategori'])) ? "produk.php?kategori=" . $_GET['kategori'] . "&&" . "halaman=" . $i : "produk.php?halaman=" . $i ?>"><?= $i ?></a></li>
-                        <?php endif ?>
-                    <?php endfor ?>
-                    <li class="page-item <?= ($halamanaktif <= 1 && $jumlahhalaman != 1) ? "" : "disabled" ?>">
-                        <a class="page-link" href="<?= (isset($_GET['kategori'])) ? "produk.php?kategori=" . $_GET['kategori'] . "&&" . "halaman=" . ($halamanaktif + 1) : "produk.php?halaman=" . ($halamanaktif + 1) ?>" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <!-- </nav> -->
-        </div>
+    <div class="container">
+    <div class="berita" style="padding-top: 100px;">
+        <center>
+            <h1><?= $artikel[0]['judul'] ?></h1>
+        <h5>Penulis : <?= $artikel[0]['penulis'] ?> | <?= $artikel[0]['tanggal_upload'] ?></h5>
+        <img src="assets/<?= $artikel[0]['gambar'] ?>" alt="" srcset="" width="100%">
+        </center>
+       <div class="m-5">
+       <?= htmlspecialchars_decode($artikel[0]['body']) ?>
+       </div>
+    </div>
     </div>
 
     <footer>

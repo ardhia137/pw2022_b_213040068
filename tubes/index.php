@@ -20,6 +20,8 @@
     require 'function.php';
     $data = query('select * from kategori order by nama asc');
     $produk = query('select * from produk order by nama asc limit 8');
+    $artikel = query('select * from berita order by tanggal_upload limit 4');
+    // print_r($artikel);
     if (isset($_REQUEST['logout'])) {
         logout();
         echo "<script> Swal.fire({
@@ -123,11 +125,13 @@
             <div class="row">
                 <?php foreach ($produk as $data) : ?>
                     <div class="col-lg-3 col-md-6 col-6">
+                        <a href="detail-produk.php?id=<?= $data['id'] ?>" style="text-decoration: none;">
                         <div class="custom-card shadow bg-body ">
                             <img src="assets/<?= $data['gambar'] ?>" alt=" " class="d-block m-auto" />
                             <h5><?= $data['nama'] ?></h5>
                             <h6>Rp <?= number_format($data['harga']) ?></h6>
                         </div>
+                    </a>
                     </div>
                 <?php endforeach ?>
             </div>
@@ -179,34 +183,17 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 col-md-6 ">
+            <?php foreach ($artikel as $data) :?>
+               <div class="col-lg-3 col-md-6 ">
+               <a href="detail-berita.php?id=<?= $data['id'] ?>" style="text-decoration:none ;">
                     <div class="custom-card shadow bg-body ">
-                        <img src="assets/berita.png" alt=" " class="d-block m-auto" />
-                        <h5>Kampanye #141CekTBC sebagai Cara Skrining TBC secara Mandiri</h5>
-                        <h6>28 April 2022</h6>
+                        <img src="assets/<?= $data['gambar'] ?>" alt=" " class="d-block m-auto" />
+                        <h5><?= $data['judul'] ?></h5>
+                        <h6><?= $data['tanggal_upload'] ?></h6>
                     </div>
+               </a>
                 </div>
-                <div class="col-lg-3 col-md-6 ">
-                    <div class="custom-card shadow bg-body ">
-                        <img src="assets/berita.png" alt=" " class="d-block m-auto" />
-                        <h5>Kampanye #141CekTBC sebagai Cara Skrining TBC secara Mandiri</h5>
-                        <h6>28 April 2022</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 ">
-                    <div class="custom-card shadow bg-body ">
-                        <img src="assets/berita.png" alt=" " class="d-block m-auto" />
-                        <h5>Kampanye #141CekTBC sebagai Cara Skrining TBC secara Mandiri</h5>
-                        <h6>28 April 2022</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 ">
-                    <div class="custom-card shadow bg-body ">
-                        <img src="assets/berita.png" alt=" " class="d-block m-auto" />
-                        <h5>Kampanye #141CekTBC sebagai Cara Skrining TBC secara Mandiri</h5>
-                        <h6>28 April 2022</h6>
-                    </div>
-                </div>
+            <?php endforeach?>
             </div>
         </div>
     </div>

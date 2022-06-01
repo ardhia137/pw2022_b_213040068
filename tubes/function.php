@@ -181,3 +181,39 @@ function edit_produk($data){
     // return mysqli_error($koneksi);
 
 }
+
+function tambah_berita($data){
+    global $koneksi;
+    $judul = htmlspecialchars($data['judul']);
+    $body = htmlspecialchars($data['body']);
+    $penulis = htmlspecialchars($data['penulis']);
+    $tanggal_upload = date("d-m-Y");
+    $gambar = upload();
+    if (!$gambar) {
+        return false;
+    }
+    $query = "insert into berita values ('','$judul','$body','$gambar','$tanggal_upload','$penulis')";
+    mysqli_query($koneksi, $query);
+
+    return mysqli_affected_rows($koneksi);
+
+}
+
+function edit_berita($data){
+    global $koneksi;
+    $id = htmlspecialchars($data['id']);
+    $judul = htmlspecialchars($data['judul']);
+    $body = htmlspecialchars($data['body']);
+    $gambarLama = htmlspecialchars($data["gambarLama"]);
+    if ($_FILES['gambar']['error'] === 4) {
+        $gambar = $gambarLama;
+    } else {
+        $gambar = upload();
+    }
+    $query = "update berita set id='$id',judul='$judul',body = '$body',gambar='$gambar' where id = '$id'";
+    mysqli_query($koneksi, $query);
+
+    return mysqli_affected_rows($koneksi);
+    // return mysqli_error($koneksi);
+
+}

@@ -32,7 +32,7 @@
 </head>
 <?php
 session_start();
-if (!isset($_SESSION["login"]) or $_SESSION['role'] != 'admin') {
+if (!isset($_SESSION["login"]) or $_SESSION['role'] == 'users') {
   header("Location: ../login-staff.php");
   exit;
 }
@@ -147,6 +147,15 @@ if (isset($_REQUEST['logout'])) {
                     </a>
                   </li>
                 </ul>
+                <?php elseif ($_SESSION['role'] == "penulis") : ?>
+                  <ul class='nav nav-treeview'>
+                  <li class='nav-item'>
+                    <a href='tambah_berita.php' class='nav-link'>
+                      <i class='far fa-circle nav-icon'></i>
+                      <p>Tambah Berita</p>
+                    </a>
+                  </li>
+                  </ul>
               <?php endif; ?>
             </li>
             <li class="nav-item">
@@ -182,6 +191,16 @@ if (isset($_REQUEST['logout'])) {
                     <a href='produk.php' class='nav-link'>
                       <i class='far fa-circle nav-icon'></i>
                       <p>Produk</p>
+                    </a>
+                  </li>
+                </ul>
+                <?php
+              elseif ($_SESSION['role'] == "penulis") : ?>
+                <ul class='nav nav-treeview'>
+                  <li class='nav-item'>
+                    <a href='berita.php' class='nav-link'>
+                      <i class='far fa-circle nav-icon'></i>
+                      <p>Berita</p>
                     </a>
                   </li>
                 </ul>

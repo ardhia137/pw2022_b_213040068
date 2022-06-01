@@ -1,17 +1,3 @@
-<?php 
-  session_start();
-  if (!isset($_SESSION["login"]) or $_SESSION['role'] == 'users' ) {
-    header("Location: ../login-staff.php");
-    exit;
-  }
-  require '../function.php';
-  $data = count_data();
-  if (isset($_REQUEST['logout'])) {
-    logout();
-    header('location:../login-staff.php');
-  }
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,8 +7,7 @@
   <title>AdminLTE 3 | Dashboard</title>
 
   <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../assets/plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
@@ -43,6 +28,30 @@
   <link rel="stylesheet" href="../assets/plugins/summernote/summernote-bs4.min.css">
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+<?php
+session_start();
+if (!isset($_SESSION["login"]) or $_SESSION['role'] != 'penulis') {
+  header("Location: ../login-staff.php");
+  exit;
+}
+require "../function.php";
+if (isset($_POST['submit'])) {
+  // print_r($_POST);
+  $cek = tambah_berita($_POST);
+  if ($cek > 0) {
+    echo " <script>
+      alert('data berhasil ditambahkan!');
+      document.location.href = 'berita.php';
+  </script>";
+  } else {
+    echo "<script>alert('data gagal di masukan')</script>";
+  }
+}
+if (isset($_REQUEST['logout'])) {
+  logout();
+  header('location:../login-staff.php');
+}
+?>
 
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
@@ -70,8 +79,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="index.php" class="brand-link">
-        <img src="../assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: .8">
+        <img src="../assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">AdminLTE 3</span>
       </a>
 
@@ -93,7 +101,7 @@
                with font-awesome or any other icon font library -->
 
             <li class="nav-item">
-              <a href="index.php" class="nav-link active">
+              <a href="index.php" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                   Dashboard
@@ -101,14 +109,14 @@
               </a>
             </li>
             <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-edit"></i>
-              <p>
-                Forms
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <?php if ($_SESSION['role'] == "admin") : ?>
+              <a href="#" class="nav-link active">
+                <i class="nav-icon fas fa-edit"></i>
+                <p>
+                  Forms
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <?php if ($_SESSION['role'] == "admin") : ?>
                 <ul class='nav nav-treeview'>
                   <li class='nav-item'>
                     <a href='tambah_staff.php' class='nav-link'>
@@ -117,13 +125,13 @@
                     </a>
                   </li>
                   <li class='nav-item'>
-                    <a href='tambah_kategori.php' class='nav-link '>
+                    <a href='tambah_kategori.php' class='nav-link active'>
                       <i class='far fa-circle nav-icon'></i>
                       <p>Tambah Kategori</p>
                     </a>
                   </li>
                   <li class='nav-item'>
-                    <a href='tambah_produk.php' class='nav-link'>
+                    <a href='tambah_produk.php' class='nav-link '>
                       <i class='far fa-circle nav-icon'></i>
                       <p>Tambah Produk</p>
                     </a>
@@ -200,12 +208,12 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Dashboard</h1>
+              <h1 class="m-0">Tambah Berita</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item active">Tambah Berita</li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -218,68 +226,38 @@
         <div class="container-fluid">
           <!-- Small boxes (Stat box) -->
           <div class="row">
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-info">
-                <div class="inner">
-                  <h3><?= $data['staff']; ?></h3>
-
-                  <p>Staff</p>
+            <div class="col-md">
+              <div class="card card-primary">
+                <div class="card-header">
+                  <h3 class="card-title">Tambah Berita</h3>
                 </div>
-                <div class="icon">
-                  <i class="ion ion-person-stalker"></i>
-                </div>
-                <a href="staff.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form action="" method="post" enctype="multipart/form-data">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Judul</label>
+                      <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Masukan judul berita" name="judul" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Body</label>
+                      <textarea id="summernote" name="body" class="form-control">
+              </textarea>
+                    </div>
+                    <div class="form-group">
+                    <label for="customFile">Gambar</label>
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="customFile" name="gambar">
+                      <label class="custom-file-label" for="customFile">Pilih Gambar</label>
+                    </div>
+                    <input type="hidden" name="penulis" value="<?= $_SESSION['data']['username'] ?>">
+                  </div>
+                    <input type="submit" value="Submit" class="btn btn-primary" name="submit">
+                </form>
               </div>
+              <!-- ./col -->
             </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-success">
-                <div class="inner">
-                  <h3><?= $data['users'] ?></h3>
-
-                  <p>Users</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-person-add "></i>
-                </div>
-                <a href="users.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-warning">
-                <div class="inner">
-                  <h3>44</h3>
-
-                  <p>User Registrations</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-stats-bars"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-danger">
-                <div class="inner">
-                  <h3>65</h3>
-
-                  <p>Unique Visitors</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-pie-graph"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-            </div>
-            <!-- ./col -->
-          </div>
-        </div><!-- /.container-fluid -->
+          </div><!-- /.container-fluid -->
       </section>
       <!-- /.content -->
     </div>
@@ -330,8 +308,24 @@
   <script src="../assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
   <!-- AdminLTE App -->
   <script src="../assets/dist/js/adminlte.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="../assets/dist/js/demo.js"></script>
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="../assets/dist/js/pages/dashboard.js"></script>
+  <script>
+  $(function () {
+    // Summernote
+    $('#summernote').summernote({
+      height:300
+    });
+
+    // CodeMirror
+    CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
+      mode: "htmlmixed",
+      theme: "monokai",
+    });
+  })
+</script>
 </body>
 
 </html>
