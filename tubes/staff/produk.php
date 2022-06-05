@@ -206,6 +206,7 @@ if (isset($_REQUEST['hapus-data'])) {
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">Data Produk</h3>
+                                    <h3 class="card-title" style="float: right;"><a href="print.php" target="blank"><button class="btn btn-info">Print</button></a></h3>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
