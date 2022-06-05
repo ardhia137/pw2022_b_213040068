@@ -11,17 +11,23 @@
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="assets/logo.png">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Detail Produk | HelthCare Solution</title>
+    <title>HelthCare Solution</title>
 </head>
 
 <body>
     <?php
     session_start();
     require 'function.php';
-    $id = addslashes($_GET['id']);
     $data = query('select * from kategori order by nama asc');
-    $artikel = query("select * from berita where id = $id");
-    // print_r($artikel);
+
+
+    $jumlahdataperhalaman = 8;
+    $jumlahdata = count(query('select * from berita'));
+    $jumlahhalaman = ceil($jumlahdata / $jumlahdataperhalaman);
+    $halamanaktif = (isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
+    $awaldata = ($jumlahdataperhalaman * $halamanaktif) - $jumlahdataperhalaman;
+    $berita = query("select * from berita order by tanggal_upload asc limit $awaldata, $jumlahdataperhalaman");
+
     if (isset($_REQUEST['logout'])) {
         logout();
         echo "<script> Swal.fire({
@@ -95,16 +101,54 @@
     </nav>
 
 
-    <div class="container">
-    <div class="berita " style="padding-top: 100px;">
-        <center>
-            <h1><?= $artikel[0]['judul'] ?></h1>
-        <h5>Penulis : <?= $artikel[0]['penulis'] ?> | <?= $artikel[0]['tanggal_upload'] ?></h5>
-        <img src="assets/<?= $artikel[0]['gambar'] ?>" alt="" srcset="" style="max-width: 100%; height:100%" class="img-fluid">
-        </center>
-       <div class="m-5">
-       <?= htmlspecialchars_decode($artikel[0]['body']) ?>
-       </div>
+    <div class="artikel">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h4>Artikel</h4>
+                </div>
+                <div class="col">
+                    <a href="#">
+                        <h4 class="float-end" style="color: #79D2F1; font-size:20px;">Selengkapnya</h4>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <?php foreach ($berita as $data) : ?>
+                    <div class="col-lg-3 col-md-6 ">
+                        <a href="detail-berita.php?id=<?= $data['id'] ?>" style="text-decoration:none ;">
+                            <div class="custom-card shadow bg-body ">
+                                <img src="assets/<?= $data['gambar'] ?>" alt=" " class="d-block m-auto" />
+                                <h5><?= $data['judul'] ?></h5>
+                                <h6><?= $data['tanggal_upload'] ?></h6>
+                            </div>
+                        </a>
+                    </div>
+                <?php endforeach ?>
+            </div>
+
+            <!-- <nav aria-label="Page navigation example"> -->
+            <ul class="pagination mt-3">
+                <li class="page-item <?= ($halamanaktif > 1) ? "" : "disabled" ?>">
+                    <a class="page-link" href="<?="berita.php?halaman=" .($halamanaktif - 1) ?>" aria-label="Previous" aria-disabled="true">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <?php for ($i = 1; $i <= $jumlahhalaman; $i++) : ?>
+                    <?php if ($i == $halamanaktif) : ?>
+                        <li class="page-item active" aria-current="page"><a class="page-link " href="<?="berita.php?halaman=" . $i ?>"><?= $i ?></a></li>
+                    <?php else : ?>
+                        <li class="page-item"><a class="page-link" href="<?= "berita.php?halaman=" . $i ?>"><?= $i ?></a></li>
+                    <?php endif ?>
+                <?php endfor ?>
+                <li class="page-item <?= ($halamanaktif <= 1 && $jumlahhalaman != 1) ? "" : "disabled" ?>">
+                    <a class="page-link" href="<?="berita.php?halaman=" . ($halamanaktif + 1) ?>" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- </nav> -->
     </div>
     </div>
 

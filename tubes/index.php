@@ -70,7 +70,7 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="#experience">Berita</a>
+                        <a class="nav-link " aria-current="page" href="berita.php?halaman=1">Berita</a>
                     </li>
                     <?php if (!isset($_SESSION['login']) or $_SESSION['role'] != 'users') : ?>
                         <li class='nav-item'>
@@ -145,25 +145,25 @@
                 <div class="col-lg-3 col-md-6 ">
                     <div class="card-cvd shadow bg-body ">
                         <h5 class="t-data-covid d-flex justify-content-center">Terkonfirmasi</h5>
-                        <h6 class="sub-data-covid d-flex justify-content-center" style="color:#F2C94C" id="terkonfirmasi"></h6>
+                        <h6 class="sub-data-covid d-flex justify-content-center" style="color:#F2C94C" id="terkonfirmasi">----</h6>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 ">
                     <div class="card-cvd shadow bg-body ">
                         <h5 class="t-data-covid d-flex justify-content-center" style="text-align: center;">Dalam Perawatan</h5>
-                        <h6 class="sub-data-covid d-flex justify-content-center" style="color:#F5A623" id="dalam_perawatan"></h6>
+                        <h6 class="sub-data-covid d-flex justify-content-center" style="color:#F5A623" id="dalam_perawatan">----</h6>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 ">
                     <div class="card-cvd shadow bg-body ">
                         <h5 class="t-data-covid d-flex justify-content-center">Sembuh</h5>
-                        <h6 class="sub-data-covid d-flex justify-content-center" style="color:#219653" id="sembuh"></h6>
+                        <h6 class="sub-data-covid d-flex justify-content-center" style="color:#219653" id="sembuh">----</h6>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 ">
                     <div class="card-cvd shadow bg-body ">
                         <h5 class="t-data-covid d-flex justify-content-center">Meninggal</h5>
-                        <h6 class="sub-data-covid d-flex justify-content-center" style="color:#D8232A" id="meninggal"></h6>
+                        <h6 class="sub-data-covid d-flex justify-content-center" style="color:#D8232A" id="meninggal">----</h6>
                     </div>
                 </div>
             </div>

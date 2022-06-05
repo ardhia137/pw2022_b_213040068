@@ -90,7 +90,7 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="#experience">Berita</a>
+                        <a class="nav-link " aria-current="page" href="berita.php?halaman=1">Berita</a>
                     </li>
 
                     <?php
@@ -129,7 +129,7 @@
                         <input type="password" id="gpsPassword" class="form-control" aria-describedby="passwordHelpBlock" name="password_baru" required>
                         <label for="inputPassword5" class="form-label">Retype Password Baru</label>
                         <input type="password" id="gpsPassword" class="form-control" aria-describedby="passwordHelpBlock" name="retype_password_baru" required>
-                        <input type="submit" value="Submit" class="btn btn-primary" name="submit" style="width: 100px;">
+                        <input type="submit" value="Submit" class="btn btn-primary" name="submit" style="width: 100px; background-color: #79D2F1; border: 1px solid #79D2F1">
                     </form>
                 </ul>
             </div>

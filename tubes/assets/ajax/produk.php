@@ -15,11 +15,13 @@ $produk = query("SELECT * FROM produk WHERE nama LIKE '%$keyword%' limit $awalda
     <div class="row">
         <?php foreach ($produk as $data) : ?>
             <div class="col-lg-3 col-md-6 col-6">
-                <div class="custom-card shadow bg-body ">
-                    <img src="assets/<?= $data['gambar'] ?>" alt=" " class="d-block m-auto" />
-                    <h5><?= $data['nama'] ?></h5>
-                    <h6>Rp <?= number_format($data['harga']) ?></h6>
-                </div>
+                <a href="detail-produk.php?id=<?= $data['id'] ?>" style="text-decoration: none;">
+                    <div class="custom-card shadow bg-body ">
+                        <img src="assets/<?= $data['gambar'] ?>" alt=" " class="d-block m-auto" />
+                        <h5><?= $data['nama'] ?></h5>
+                        <h6>Rp <?= number_format($data['harga']) ?></h6>
+                    </div>
+                </a>
             </div>
         <?php endforeach ?>
     </div>
@@ -31,7 +33,7 @@ $produk = query("SELECT * FROM produk WHERE nama LIKE '%$keyword%' limit $awalda
 <?php if ($_GET['keyword'] == '') : ?>
     <ul class="pagination mt-3">
         <li class="page-item <?= ($halamanaktif > 1) ? "" : "disabled" ?>">
-            <a class="page-link" href="produk.php?halaman=<?= $halamanaktif-1 ?>" aria-label="Previous" aria-disabled="true">
+            <a class="page-link" href="produk.php?halaman=<?= $halamanaktif - 1 ?>" aria-label="Previous" aria-disabled="true">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
@@ -43,7 +45,7 @@ $produk = query("SELECT * FROM produk WHERE nama LIKE '%$keyword%' limit $awalda
             <?php endif ?>
         <?php endfor ?>
         <li class="page-item <?= ($halamanaktif <= 1) ? "" : "disabled" ?>">
-            <a class="page-link" href="produk.php?halaman=<?= $jumlahhalaman+1 ?>" aria-label="Next">
+            <a class="page-link" href="produk.php?halaman=<?= $jumlahhalaman + 1 ?>" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>

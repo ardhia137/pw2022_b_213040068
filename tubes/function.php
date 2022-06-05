@@ -53,7 +53,11 @@ function count_data(){
     $total_staff = mysqli_fetch_array($staff);
     $users = mysqli_query($koneksi,'select count(*) as total_users from users');
     $total_users = mysqli_fetch_array($users);
-    return ['staff'=>$total_staff['total_staff'],'users'=>$total_users['total_users']];
+    $produk = mysqli_query($koneksi,'select count(*) as total_produk from produk');
+    $total_produk = mysqli_fetch_array($produk);
+    $berita = mysqli_query($koneksi,'select count(*) as total_berita from berita');
+    $total_berita = mysqli_fetch_array($berita);
+    return ['staff'=>$total_staff['total_staff'],'users'=>$total_users['total_users'],'produk'=>$total_produk['total_produk'],'berita'=>$total_berita['total_berita']];
 }
 function tambah_kategori($data){
     global $koneksi;
@@ -216,4 +220,13 @@ function edit_berita($data){
     return mysqli_affected_rows($koneksi);
     // return mysqli_error($koneksi);
 
+}
+
+function reset_password_users($data){
+    global $koneksi;
+    $query = "update users set password = 'hcs123' where id = '$data'";
+    mysqli_query($koneksi,$query);
+    // echo mysqli_error($koneksi);
+    // die;
+    return mysqli_affected_rows($koneksi);
 }

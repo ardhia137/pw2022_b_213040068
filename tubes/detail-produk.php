@@ -69,7 +69,7 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="#experience">Berita</a>
+                        <a class="nav-link " aria-current="page" href="berita.php?halaman=1">Berita</a>
                     </li>
 
                     <?php
@@ -95,7 +95,7 @@
     </nav>
 
 
-    <div class="produk" style="padding-top: 100px;">
+    <div class="produk" style="padding-top: 100px; padding-bottom:0px">
         <div class="container">
             <div class="detail-produk">
                     <div class="row">
