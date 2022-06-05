@@ -41,7 +41,7 @@ if (isset($_POST['submit'])) {
   if ($cek > 0) {
     echo " <script>
     alert('data berhasil ditambahkan!');
-    document.location.href = 'index.php';
+    document.location.href = 'produk.php';
     </script>";
   } else {
     echo "<script>alert('data gagal di masukan')</script>";

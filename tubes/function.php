@@ -17,10 +17,9 @@ function register($data, $table)
     $nama = htmlspecialchars($data['nama']);
     $email = htmlspecialchars($data['email']);
     $username = htmlspecialchars($data['username']);
-    $password = htmlspecialchars($data['password']);
     $validasi = "select * from $table where email = '$email' && username = '$username'";
     mysqli_query($koneksi, $validasi);
-
+    
     if (mysqli_affected_rows($koneksi) == 0) {
         if (array_key_exists('role', $data)) {
             $password = "staff_hcs";
@@ -29,6 +28,7 @@ function register($data, $table)
             mysqli_query($koneksi, $query);
             return mysqli_affected_rows($koneksi);
         } else {
+            $password = htmlspecialchars($data['password']);
             $query = "insert into $table values ('','$nama','$username','$password','$email')";
             mysqli_query($koneksi, $query);
             return mysqli_affected_rows($koneksi);
