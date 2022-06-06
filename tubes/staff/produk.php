@@ -1,38 +1,11 @@
-<?php
-session_start();
-if (!isset($_SESSION["login"]) or $_SESSION['role'] != 'admin') {
-    header("Location: ../login-staff.php");
-    exit;
-}
-require '../function.php';
-$data = query("select produk.id,produk.nama,kategori.nama as kategori,produk.stok,produk.deskripsi,produk.harga,produk.gambar from produk ,kategori where produk.id_kategori = kategori.id");
-if (isset($_REQUEST['logout'])) {
-    logout();
-    header('location:../login-staff.php');
-}
-if (isset($_REQUEST['hapus-data'])) {
-    if (hapus('produk', $_GET['id']) > 0) {
-        echo " <script>
-        alert('data berhasil dihapus!');
-        document.location.href = 'produk.php';
-        </script>";
-    } else {
-        echo " Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Data Gagal Dihapus!',
-          })";
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <link rel="shortcut icon" href="../assets/logo.png">
+    <title>Dashboard | HelthCare Solution</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -48,6 +21,39 @@ if (isset($_REQUEST['hapus-data'])) {
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
+    <?php
+    session_start();
+    if (!isset($_SESSION["login"]) or $_SESSION['role'] != 'admin') {
+        header("Location: ../login-staff.php");
+        exit;
+    }
+    require '../function.php';
+    $data = query("select produk.id,produk.nama,kategori.nama as kategori,produk.stok,produk.deskripsi,produk.harga,produk.gambar from produk ,kategori where produk.id_kategori = kategori.id");
+    if (isset($_REQUEST['logout'])) {
+        logout();
+        header('location:../login-staff.php');
+    }
+    if (isset($_REQUEST['hapus-data'])) {
+        if (hapus('produk', $_GET['id']) > 0) {
+            echo " <script> Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Data Berhasil Dihapus!!',
+          }).then((result) => {
+            if (result.isConfirmed) {
+                document.location.href = './produk.php';
+              }
+          })
+          </script>";
+        } else {
+            echo " Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Data Gagal Dihapus!!',
+          })";
+        }
+    }
+    ?>
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -74,7 +80,7 @@ if (isset($_REQUEST['hapus-data'])) {
             <!-- Brand Logo -->
             <a href="index.php" class="brand-link">
                 <img src="../assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">AdminLTE 3</span>
+                <span class="brand-text font-weight-light"><b>HCS</b></span>
             </a>
 
             <!-- Sidebar -->
@@ -111,65 +117,65 @@ if (isset($_REQUEST['hapus-data'])) {
                                 </p>
                             </a>
                             <?php if ($_SESSION['role'] == "admin") : ?>
-                <ul class='nav nav-treeview'>
-                  <li class='nav-item'>
-                    <a href='tambah_staff.php' class='nav-link'>
-                      <i class='far fa-circle nav-icon'></i>
-                      <p>Tambah Staff</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
-                    <a href='tambah_kategori.php' class='nav-link '>
-                      <i class='far fa-circle nav-icon'></i>
-                      <p>Tambah Kategori</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
-                    <a href='tambah_produk.php' class='nav-link'>
-                      <i class='far fa-circle nav-icon'></i>
-                      <p>Tambah Produk</p>
-                    </a>
-                  </li>
-                </ul>
-              <?php endif; ?>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link active">
-                <i class="nav-icon fas fa-table"></i>
-                <p>
-                  Tables
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <?php
-              if ($_SESSION['role'] == "admin") : ?>
-                <ul class='nav nav-treeview'>
-                  <li class='nav-item'>
-                    <a href='staff.php' class='nav-link'>
-                      <i class='far fa-circle nav-icon'></i>
-                      <p>Staff</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
-                    <a href='users.php' class='nav-link'>
-                      <i class='far fa-circle nav-icon'></i>
-                      <p>Users</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
-                    <a href='kategori.php' class='nav-link'>
-                      <i class='far fa-circle nav-icon'></i>
-                      <p>Kategori</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
-                    <a href='produk.php' class='nav-link active'>
-                      <i class='far fa-circle nav-icon'></i>
-                      <p>Produk</p>
-                    </a>
-                  </li>
-                </ul>
-              <?php endif ?>
+                                <ul class='nav nav-treeview'>
+                                    <li class='nav-item'>
+                                        <a href='tambah_staff.php' class='nav-link'>
+                                            <i class='far fa-circle nav-icon'></i>
+                                            <p>Tambah Staff</p>
+                                        </a>
+                                    </li>
+                                    <li class='nav-item'>
+                                        <a href='tambah_kategori.php' class='nav-link '>
+                                            <i class='far fa-circle nav-icon'></i>
+                                            <p>Tambah Kategori</p>
+                                        </a>
+                                    </li>
+                                    <li class='nav-item'>
+                                        <a href='tambah_produk.php' class='nav-link'>
+                                            <i class='far fa-circle nav-icon'></i>
+                                            <p>Tambah Produk</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            <?php endif; ?>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>
+                                    Tables
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <?php
+                            if ($_SESSION['role'] == "admin") : ?>
+                                <ul class='nav nav-treeview'>
+                                    <li class='nav-item'>
+                                        <a href='staff.php' class='nav-link'>
+                                            <i class='far fa-circle nav-icon'></i>
+                                            <p>Staff</p>
+                                        </a>
+                                    </li>
+                                    <li class='nav-item'>
+                                        <a href='users.php' class='nav-link'>
+                                            <i class='far fa-circle nav-icon'></i>
+                                            <p>Users</p>
+                                        </a>
+                                    </li>
+                                    <li class='nav-item'>
+                                        <a href='kategori.php' class='nav-link'>
+                                            <i class='far fa-circle nav-icon'></i>
+                                            <p>Kategori</p>
+                                        </a>
+                                    </li>
+                                    <li class='nav-item'>
+                                        <a href='produk.php' class='nav-link active'>
+                                            <i class='far fa-circle nav-icon'></i>
+                                            <p>Produk</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            <?php endif ?>
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>

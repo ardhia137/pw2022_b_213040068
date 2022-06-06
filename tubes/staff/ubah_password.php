@@ -1,12 +1,11 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+  <link rel="shortcut icon" href="../assets/logo.png">
+  <title>Dashboard | HelthCare Solution</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -30,40 +29,58 @@
   <link rel="stylesheet" href="../assets/plugins/summernote/summernote-bs4.min.css">
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<?php
-session_start();
-if (!isset($_SESSION["login"]) or $_SESSION['role'] == 'users') {
-  header("Location: ../login-staff.php");
-  exit;
-}
-require "../function.php";
-if (isset($_POST['submit'])) {
-  if ($_SESSION['data']['password'] == $_POST['password_lama']) {
-    if ($_POST['password_baru'] == $_POST['retype_password_baru']) {
-      $cek = ubah_password('staff', $_POST);
-      if ($cek > 0) {
-        $_SESSION['data']['password'] = $_POST['password_baru'];
-        echo " <script>
-        alert('password berhasil diubah!');
-        document.location.href = 'index.php';
-    </script>";
-      } else {
-        echo "<script>alert('data gagal di ubah')</script>";
-      }
-    }else{
-      echo "<script>alert('ketik ulang password dengan benar')</script>";
-    }
-  } else {
-    echo "<script>alert('password lama salah')</script>";
-  }
-}
-if (isset($_REQUEST['logout'])) {
-  logout();
-  header('location:../login-staff.php');
-}
-?>
 
 <body class="hold-transition sidebar-mini layout-fixed">
+  <?php
+  session_start();
+  if (!isset($_SESSION["login"]) or $_SESSION['role'] == 'users') {
+    header("Location: ../login-staff.php");
+    exit;
+  }
+  require "../function.php";
+  if (isset($_POST['submit'])) {
+    if ($_SESSION['data']['password'] == $_POST['password_lama']) {
+      if ($_POST['password_baru'] == $_POST['retype_password_baru']) {
+        $cek = ubah_password('staff', $_POST);
+        if ($cek > 0) {
+          $_SESSION['data']['password'] = $_POST['password_baru'];
+          echo " <script> Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Berhasil Ganti password',
+        }).then((result) => {
+          if (result.isConfirmed) {
+              document.location.href = './index.php';
+            }
+        })
+        </script>";
+        } else {
+          echo "<script> Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Data Gagal Diubah!!',
+        })</script>";
+        }
+      } else {
+        echo "<script> Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Ketik Ulang Password Dengan Benar!!',
+    })</script>";
+      }
+    } else {
+      echo "<script> Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: 'Password Lama Salah',
+})</script>";
+    }
+  }
+  if (isset($_REQUEST['logout'])) {
+    logout();
+    header('location:../login-staff.php');
+  }
+  ?>
   <div class="wrapper">
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -90,7 +107,7 @@ if (isset($_REQUEST['logout'])) {
       <!-- Brand Logo -->
       <a href="index.php" class="brand-link">
         <img src="../assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light"><b>HCS</b></span>
       </a>
 
       <!-- Sidebar -->
@@ -110,7 +127,7 @@ if (isset($_REQUEST['logout'])) {
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
-               <li class="nav-item">
+            <li class="nav-item">
               <a href="index.php" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
@@ -119,14 +136,14 @@ if (isset($_REQUEST['logout'])) {
               </a>
             </li>
             <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-edit"></i>
-              <p>
-                Forms
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <?php if ($_SESSION['role'] == "admin") : ?>
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-edit"></i>
+                <p>
+                  Forms
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <?php if ($_SESSION['role'] == "admin") : ?>
                 <ul class='nav nav-treeview'>
                   <li class='nav-item'>
                     <a href='tambah_staff.php' class='nav-link'>
@@ -147,15 +164,15 @@ if (isset($_REQUEST['logout'])) {
                     </a>
                   </li>
                 </ul>
-                <?php elseif ($_SESSION['role'] == "penulis") : ?>
-                  <ul class='nav nav-treeview'>
+              <?php elseif ($_SESSION['role'] == "penulis") : ?>
+                <ul class='nav nav-treeview'>
                   <li class='nav-item'>
                     <a href='tambah_berita.php' class='nav-link'>
                       <i class='far fa-circle nav-icon'></i>
                       <p>Tambah Berita</p>
                     </a>
                   </li>
-                  </ul>
+                </ul>
               <?php endif; ?>
             </li>
             <li class="nav-item">
@@ -194,7 +211,7 @@ if (isset($_REQUEST['logout'])) {
                     </a>
                   </li>
                 </ul>
-                <?php
+              <?php
               elseif ($_SESSION['role'] == "penulis") : ?>
                 <ul class='nav nav-treeview'>
                   <li class='nav-item'>
@@ -205,7 +222,7 @@ if (isset($_REQUEST['logout'])) {
                   </li>
                 </ul>
               <?php endif ?>
-              </ul>
+          </ul>
         </nav>
         <!-- /.sidebar-menu -->
       </div>
@@ -259,7 +276,7 @@ if (isset($_REQUEST['logout'])) {
                       <label for="exampleInputEmail1">Retype Password Baru</label>
                       <input type="password" class="form-control" id="exampleInputEmail1" placeholder="Ketik ulang password baru" name="retype_password_baru" required>
                     </div>
-                    <input type="submit" value="Submit" class="btn btn-primary" name="submit">
+                    <input type="submit" value="Submit" class="btn btn-info" name="submit">
                 </form>
               </div>
               <!-- ./col -->

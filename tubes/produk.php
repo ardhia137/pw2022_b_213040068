@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="assets/logo.png">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>HelthCare Solution</title>
+    <title>Produk |HelthCare Solution</title>
 </head>
 
 <body>

@@ -1,12 +1,11 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+  <link rel="shortcut icon" href="../assets/logo.png">
+  <title>Dashboard | HelthCare Solution</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -22,61 +21,66 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
-<?php
-session_start();
-if (!isset($_SESSION["login"]) or $_SESSION['role'] != 'admin') {
-  header("Location: ../login-staff.php");
-  exit;
-}
-require '../function.php';
-$data = query('select * from users');
-if (isset($_REQUEST['logout'])) {
-  logout();
-  header('location:../login-staff.php');
-}
+  <?php
+  session_start();
+  if (!isset($_SESSION["login"]) or $_SESSION['role'] != 'admin') {
+    header("Location: ../login-staff.php");
+    exit;
+  }
+  require '../function.php';
+  $data = query('select * from users');
+  if (isset($_REQUEST['logout'])) {
+    logout();
+    header('location:../login-staff.php');
+  }
 
-if (isset($_REQUEST['hapus-data'])) {
-  if (hapus('users', $_GET['id']) > 0) {
-      echo " <script>
+  if (isset($_REQUEST['hapus-data'])) {
+    if (hapus('users', $_GET['id']) > 0) {
+      echo " <script> Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Data Berhasil Dihapus!!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+            document.location.href = './users.php';
+          }
+      })
+      </script>";
+    } else {
+      echo " Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Data Gagal Dihapus!',
+        })";
+    }
+  }
+
+  if (isset($_REQUEST['reset-password'])) {
+    $id = $_GET['id'];
+    $user = query("select * from users where id = $id")[0];
+    if ($user['password'] != 'hcs123') {
+      if (reset_password_users($_GET['id']) > 0) {
+        echo " <script>
       alert('data berhasil dihapus!');
-      document.location.href = 'produk.php';
+      document.location.href = 'staff.php';
       </script>";
-  } else {
-      echo " Swal.fire({
+      } else {
+        echo " Swal.fire({
           icon: 'error',
           title: 'Oops...',
           text: 'Data Gagal Dihapus!',
         })";
-  }
-}
-
-if (isset($_REQUEST['reset-password'])) {
-  $id = $_GET['id'];
-  $user = query("select * from users where id = $id")[0];
-  if ($user['password'] != 'hcs123') {
-    if (reset_password_users($_GET['id']) > 0) {
-      echo " <script>
-      alert('password berhasil di reset!');
-      document.location.href = 'users.php';
-      </script>";
-  } else {
-      echo " Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Data Gagal Dihapus!',
-        })";
-  }
-  }
-  else {
-    echo "<script>Swal.fire({
+      }
+    } else {
+      echo "<script>Swal.fire({
         icon: 'error',
         title: 'Oops...',
         text: 'Password Sudah Default',
       })</script>";
-}
-}
+    }
+  }
 
-?>
+  ?>
 
 
   <div class="wrapper">
@@ -105,7 +109,7 @@ if (isset($_REQUEST['reset-password'])) {
       <!-- Brand Logo -->
       <a href="index.php" class="brand-link">
         <img src="../assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light"><b>HCS</b></span>
       </a>
 
       <!-- Sidebar -->

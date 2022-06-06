@@ -9,7 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Hello, world!</title>
+    <link rel="shortcut icon" href="assets/logo.png">
+<title>Ganti Password | HelthCare Solution</title>
 </head>
 
 <body>
@@ -28,18 +29,36 @@
                 $cek = ubah_password('users', $_POST);
                 if ($cek > 0) {
                     $_SESSION['data']['password'] = $_POST['password_baru'];
-                    echo " <script>
-        alert('password berhasil diubah!');
-        document.location.href = 'index.php';
-    </script>";
+                    echo " <script> Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Berhasil Ganti password',
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.location.href = './index.php';
+                          }
+                      })
+                      </script>";
                 } else {
-                    echo "<script>alert('data gagal di ubah')</script>";
+                    echo "<script> Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Data Gagal Diubah!!',
+                      })</script>";
                 }
             } else {
-                echo "<script>alert('ketik ulang password dengan benar')</script>";
+                echo "<script> Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Ketik Ulang Password Dengan Benar!!',
+                  })</script>";
             }
         } else {
-            echo "<script>alert('password lama salah')</script>";
+            echo "<script> Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Password Lama Salah',
+              })</script>";
         }
     }
     if (isset($_REQUEST['logout'])) {
@@ -53,7 +72,7 @@
             document.location.href = './login.php';
           }
       })
-      </script>";
+      </>";
     }
     ?>
 

@@ -4,7 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+  <link rel="shortcut icon" href="../assets/logo.png">
+  <title>Dashboard | HelthCare Solution</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet"
@@ -29,6 +30,7 @@
   <link rel="stylesheet" href="../assets/plugins/summernote/summernote-bs4.min.css">
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+<body class="hold-transition sidebar-mini layout-fixed">
 <?php
  session_start();
  if (!isset($_SESSION["login"]) or $_SESSION['role'] != 'admin') {
@@ -39,12 +41,22 @@ require "../function.php";
 if (isset($_POST['submit'])) {
     $cek = edit_staff($_POST);
     if ($cek> 0) {
-      echo " <script>
-      alert('data berhasil diubah!');
-      document.location.href = 'staff.php';
-  </script>";
+      echo " <script> Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Data Berhasil Diubah!!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+            document.location.href = './staff.php';
+          }
+      })
+      </script>";
     } else {
-        echo "<script>alert('data gagal diubah!!')</script>";
+        echo "<script> Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Data Gagal Diubah!!',
+        })</script>";
     }
 }
 if (isset($_REQUEST['logout'])) {
@@ -54,7 +66,6 @@ if (isset($_REQUEST['logout'])) {
 $id = addslashes($_GET['id']);
 $data = query("select * from staff where id = '$id'");
 ?>
-<body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -82,7 +93,7 @@ $data = query("select * from staff where id = '$id'");
       <a href="index.php" class="brand-link">
         <img src="../assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
           style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light"><b>HCS</b></span>
       </a>
 
       <!-- Sidebar -->
