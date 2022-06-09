@@ -60,10 +60,16 @@
     $user = query("select * from users where id = $id")[0];
     if ($user['password'] != 'hcs123') {
       if (reset_password_users($_GET['id']) > 0) {
-        echo " <script>
-      alert('data berhasil dihapus!');
-      document.location.href = 'staff.php';
-      </script>";
+        echo "<script> Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Password Berhasil Diubah!!',
+        }).then((result) => {
+          if (result.isConfirmed) {
+              document.location.href = './users.php';
+            }
+        })
+        </script>";
       } else {
         echo " Swal.fire({
           icon: 'error',
